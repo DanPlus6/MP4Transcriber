@@ -8,8 +8,7 @@ ffmpegio.set_path(ffmpeg_path=path.join(base_dir, "ffmpeg.exe"), ffprobe_path=pa
 
 from tkinter import filedialog
 from win11toast import notify
-from time import sleep
-
+from time import sleep, time
 
 def get_tempdir():
     for var in ("TMPDIR", "TEMP", "TMP"):
@@ -42,7 +41,7 @@ def extract_audio(input_path,output_path):
     sleep(6)
 
 class STTProcessor:
-    def __init__(self, model_size="medium"):
+    def __init__(self, model_size="small"):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.compute_type = "float32" if self.device == "cuda" else "int8"
         try:
@@ -110,7 +109,11 @@ if __name__ == '__main__':
     tmp = path.join(get_tempdir(),(path.basename(openPath)[:-4]+'.wav'))
     extract_audio(openPath,tmp)
 
-    savePath = filedialog.asksaveasfilename(title="Choose a location to save the transcript",defaultextension=".txt",filetypes=[("Text files", "*.txt")])
+    savePath = filedialog.asksaveasfilename(title="Choose a location to save the transcript",initialfile=(path.basename(openPath)[:-4]),defaultextension=".txt",filetypes=[("Text files", "*.txt")])
+    startTime = time()
     STTProcessor().transcribe_and_save(tmp,savePath)
     remove(tmp)
+    endTime = time()
+    timeTaken = round((endTime-startTime),2)
+    print("Total taken time:",timeTaken)
 
