@@ -41,11 +41,11 @@ def extract_audio(input_path,output_path):
     sleep(6)
 
 class STTProcessor:
-    def __init__(self, model_size="small"):
+    def __init__(self):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.compute_type = "float32" if self.device == "cuda" else "int8"
         try:
-            self.model = WhisperModel(model_size, device=self.device, compute_type=self.compute_type)
+            self.model = WhisperModel("small", device=self.device, compute_type=self.compute_type)
         except Exception as e:
             notify("MP4 Transcriber",f"Error loading model: {e}")
             self.model = None
