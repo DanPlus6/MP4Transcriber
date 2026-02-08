@@ -39,7 +39,7 @@ class STTProcessor:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.compute_type = "float32" if self.device == "cuda" else "int8"
         try:
-            self.model = WhisperModel("small", device=self.device, compute_type=self.compute_type)
+            self.model = WhisperModel("large", device=self.device, compute_type=self.compute_type)
         except Exception as e:
             print(f"[-] Error loading model: {e}")
             self.model = None
