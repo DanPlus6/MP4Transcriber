@@ -5,7 +5,7 @@ import torch
 import ffmpegio
 base_dir = path.dirname(path.abspath(__file__))
 
-from time import sleep, time
+from time import time
 
 def get_tempdir():
     for var in ("TMPDIR", "TEMP", "TMP"):
@@ -24,9 +24,7 @@ def extract_audio(input_path,output_path):
         ffmpegio.transcode(input_path, output_path, overwrite=True, acodec='pcm_s16le', format='wav')
     except Exception as e:
         print(f"[-] Error during audio extraction: {e}")
-        sleep(6)
         print("[+] Re-attempting audio extraction.")
-        sleep(6)
         try:
             ffmpegio.transcode(input_path, output_path, overwrite=True, acodec='pcm_s16le', format='wav')
         except:
@@ -35,7 +33,6 @@ def extract_audio(input_path,output_path):
             exit()
 
     print("[+] Finished audio extraction.")
-    sleep(6)
 
 class STTProcessor:
     def __init__(self):
@@ -50,12 +47,10 @@ class STTProcessor:
     def transcribe(self, audio_file_path, language="zh", task="translate", beam_size=5):
         if not self.model:
             print("[-] Model is not loaded.")
-            sleep(6)
             return None
 
         if not path.exists(audio_file_path):
             print(f"[-] Error: Audio file not found at {audio_file_path}")
-            sleep(6)
             return None
 
         print("[+] Transcribing audio...")
@@ -72,9 +67,7 @@ class STTProcessor:
             return transcribed_text
         except Exception as e:
             print(f"[-] Error during transcription: {e}")
-            sleep(6)
             print("[+] Re-attempting transcription.")
-            sleep(6)
             try:
                 segments, info = self.model.transcribe(
                     audio_file_path,
