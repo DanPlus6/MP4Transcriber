@@ -102,7 +102,7 @@ class STTProcessor:
 
 
 if __name__ == '__main__':
-    openPath = rf'working/*.mp4'
+    openPath = rf'working/working.mp4'
     tmp = path.join(get_tempdir(),(path.basename(openPath)[:-4]+'.wav'))
     extract_audio(openPath,tmp)
 
