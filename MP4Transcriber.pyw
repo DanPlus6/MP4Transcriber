@@ -4,9 +4,7 @@ import torch
 
 import ffmpegio
 base_dir = path.dirname(path.abspath(__file__))
-# ffmpegio.set_path(ffmpeg_path=path.join(base_dir, "ffmpeg.exe"), ffprobe_path=path.join(base_dir, "ffprobe.exe"))
 
-# from tkinter import filedialog
 from time import sleep, time
 
 def get_tempdir():
@@ -104,12 +102,10 @@ class STTProcessor:
 
 
 if __name__ == '__main__':
-    # openPath = rf'{filedialog.askopenfilename(title="Choose a Mp4 file to transcribe",filetypes=[("MP4 files","*.mp4")])}'
     openPath = rf'working/*.mp4'
     tmp = path.join(get_tempdir(),(path.basename(openPath)[:-4]+'.wav'))
     extract_audio(openPath,tmp)
 
-    # savePath = filedialog.asksaveasfilename(title="Choose a location to save the transcript",initialfile=(path.basename(openPath)[:-4]),defaultextension=".txt",filetypes=[("Text files", "*.txt")])
     savePath = rf'working/product.txt'
     startTime = time()
     STTProcessor().transcribe_and_save(tmp,savePath)
